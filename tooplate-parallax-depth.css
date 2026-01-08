@@ -2843,3 +2843,15 @@ html {
 	.events-section { padding-top: 22px; padding-bottom: 18px; }
 	.events-section .event-caption { text-align: center; }
 }
+
+/* Final mobile override: force smaller hero title on phones to avoid clipping */
+@media (max-width: 480px) {
+	.hero-title {
+		font-size: clamp(0.95rem, 5.5vw, 1.3rem) !important;
+		letter-spacing: 0 !important;
+		line-height: 1.45 !important;
+		white-space: normal !important;
+		word-break: break-word !important;
+		overflow-wrap: break-word !important;
+	}
+}
