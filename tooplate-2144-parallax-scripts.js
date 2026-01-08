@@ -26,21 +26,39 @@ for (let i = 0; i < numStars; i++) {
 const layers = document.querySelectorAll('.parallax-layer');
 const heroContent = document.querySelector('.hero-content');
 
+// Detect small screens and update on resize
+let isSmallScreen = window.innerWidth <= 480;
+window.addEventListener('resize', () => {
+   isSmallScreen = window.innerWidth <= 480;
+});
+
 window.addEventListener('scroll', () => {
    const scrolled = window.pageYOffset;
 
-   // Move hero content
+   // Move hero content (disabled on small screens to avoid inline transform clipping)
    if (heroContent && scrolled < window.innerHeight) {
-      heroContent.style.transform = `translate(-50%, calc(-50% + ${scrolled * 0.3}px))`;
-      heroContent.style.opacity = 1 - (scrolled / 800);
+      if (!isSmallScreen) {
+         heroContent.style.transform = `translate(-50%, calc(-50% + ${scrolled * 0.3}px))`;
+         heroContent.style.opacity = 1 - (scrolled / 800);
+      } else {
+         // keep CSS-controlled positioning for small screens
+         heroContent.style.transform = '';
+         heroContent.style.opacity = '';
+      }
    }
 
-   // Apply different speeds to each layer in hero section only
+   // Apply different speeds to each layer in hero section only (skip on small screens)
    if (scrolled < window.innerHeight) {
-      layers.forEach((layer, index) => {
-         const speed = (index + 1) * 0.2;
-         layer.style.transform = `translateY(${scrolled * speed}px)`;
-      });
+      if (!isSmallScreen) {
+         layers.forEach((layer, index) => {
+            const speed = (index + 1) * 0.2;
+            layer.style.transform = `translateY(${scrolled * speed}px)`;
+         });
+      } else {
+         layers.forEach(layer => {
+            layer.style.transform = '';
+         });
+      }
    }
 });
 
