@@ -2847,7 +2847,7 @@ html {
 /* Final mobile override: force smaller hero title on phones to avoid clipping */
 @media (max-width: 480px) {
 	.hero-title {
-		font-size: clamp(0.95rem, 5.5vw, 1.3rem) !important;
+		font-size: clamp(1.05rem, 6.5vw, 1.6rem) !important;
 		letter-spacing: 0 !important;
 		line-height: 1.45 !important;
 		white-space: normal !important;
