@@ -100,122 +100,84 @@ const featureCards = document.querySelectorAll('.feature-card-3d');
 
 let currentRotation = 0;
 let currentIndex = 0;
-let isTouch = window.innerWidth <= 768; // Mobile detection
 
 // Create indicators
 featureCards.forEach((_, index) => {
-	const indicator = document.createElement('div');
-	indicator.className = 'indicator';
-	if (index === 0) indicator.classList.add('active');
-	indicator.addEventListener('click', () => goToSlide(index));
-	indicatorsContainer.appendChild(indicator);
+   const indicator = document.createElement('div');
+   indicator.className = 'indicator';
+   if (index === 0) indicator.classList.add('active');
+   indicator.addEventListener('click', () => goToSlide(index));
+   indicatorsContainer.appendChild(indicator);
 });
 
 const indicators = document.querySelectorAll('.indicator');
 
-// Update view based on screen size
+// Update view - always use 3D rotation
 function updateView() {
-	if (isTouch) {
-		// Mobile: use native scroll instead of 3D rotation
-		const cardWidth = carousel.offsetWidth;
-		carousel.scrollLeft = currentIndex * cardWidth;
-	} else {
-		// Desktop: use 3D rotation
-		carousel.style.transform = `rotateY(${currentRotation}deg)`;
-	}
-	updateIndicators();
+   carousel.style.transform = `rotateY(${currentRotation}deg)`;
+   updateIndicators();
 }
 
 // Update indicators
 function updateIndicators() {
-	indicators.forEach((indicator, index) => {
-		indicator.classList.toggle('active', index === currentIndex);
-	});
+   indicators.forEach((indicator, index) => {
+      indicator.classList.toggle('active', index === currentIndex);
+   });
 }
 
 // Go to specific slide
 function goToSlide(index) {
-	currentIndex = index;
-	if (!isTouch) {
-		currentRotation = -index * 60;
-	}
-	updateView();
+   currentIndex = index;
+   currentRotation = -index * 60;
+   updateView();
 }
 
 // Previous button
-if (prevBtn) {
-	prevBtn.addEventListener('click', () => {
-		currentIndex = (currentIndex - 1 + featureCards.length) % featureCards.length;
-		if (!isTouch) {
-			currentRotation += 60;
-		}
-		updateView();
-	});
-}
+prevBtn.addEventListener('click', () => {
+   currentIndex = (currentIndex - 1 + featureCards.length) % featureCards.length;
+   currentRotation += 60;
+   updateView();
+});
 
 // Next button
-if (nextBtn) {
-	nextBtn.addEventListener('click', () => {
-		currentIndex = (currentIndex + 1) % featureCards.length;
-		if (!isTouch) {
-			currentRotation -= 60;
-		}
-		updateView();
-	});
-}
-
-// Detect scroll on carousel (mobile)
-if (carousel) {
-	let scrollTimeout;
-	carousel.addEventListener('scroll', () => {
-		clearTimeout(scrollTimeout);
-		scrollTimeout = setTimeout(() => {
-			if (isTouch) {
-				const cardWidth = carousel.offsetWidth;
-				const scrollPosition = carousel.scrollLeft;
-				currentIndex = Math.round(scrollPosition / cardWidth);
-				updateIndicators();
-			}
-		}, 150);
-	});
-}
+nextBtn.addEventListener('click', () => {
+   currentIndex = (currentIndex + 1) % featureCards.length;
+   currentRotation -= 60;
+   updateView();
+});
 
 // Touch support for mobile
 let touchStartX = 0;
 let touchEndX = 0;
 
-if (carousel) {
-	carousel.addEventListener('touchstart', (e) => {
-		touchStartX = e.changedTouches[0].screenX;
-	}, false);
+carousel.addEventListener('touchstart', (e) => {
+   touchStartX = e.changedTouches[0].screenX;
+});
 
-	carousel.addEventListener('touchend', (e) => {
-		touchEndX = e.changedTouches[0].screenX;
-		handleSwipe();
-	}, false);
-}
+carousel.addEventListener('touchend', (e) => {
+   touchEndX = e.changedTouches[0].screenX;
+   handleSwipe();
+});
 
 function handleSwipe() {
-	if (!isTouch) return; // Only on mobile
-	const threshold = 50;
-	if (touchEndX < touchStartX - threshold) {
-		// Swipe left - next
-		currentIndex = (currentIndex + 1) % featureCards.length;
-		updateView();
-	}
-	if (touchEndX > touchStartX + threshold) {
-		// Swipe right - previous
-		currentIndex = (currentIndex - 1 + featureCards.length) % featureCards.length;
-		updateView();
-	}
+   if (touchEndX < touchStartX - 50) {
+      // Swipe left - next
+      nextBtn.click();
+   }
+   if (touchEndX > touchStartX + 50) {
+      // Swipe right - previous
+      prevBtn.click();
+   }
 }
 
-// Update on window resize
-window.addEventListener('resize', () => {
-	isTouch = window.innerWidth <= 768;
-	currentRotation = 0;
-	updateView();
-});
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+   anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+         target.scrollIntoView({
+            behavior: 'smooth',
             block: 'start'
          });
       }

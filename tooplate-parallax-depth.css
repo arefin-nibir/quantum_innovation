@@ -1297,13 +1297,17 @@ html {
 	.hero-title {
 		font-size: clamp(1.8rem, 6vw, 2.6rem);
 		text-align: center;
-		line-height: 1.1;
+		line-height: 1.2;
+		letter-spacing: 0.06em;
 	}
 
 	.hero-subtitle {
 		font-size: clamp(0.9rem, 3.2vw, 1.05rem);
 		text-align: center;
 		margin-top: 8px;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		letter-spacing: 0.2em;
 	}
 
 	.cta-button {
@@ -1332,49 +1336,31 @@ html {
 		transform: none !important;
 		perspective: none !important;
 		display: flex;
-		gap: 0;
+		gap: 16px;
 		overflow-x: auto;
-		overflow-y: hidden;
 		scroll-snap-type: x mandatory;
-		scroll-behavior: smooth;
 		-webkit-overflow-scrolling: touch;
-		padding: 0 12px 16px 12px;
-		margin: 0 -12px;
-	}
-
-	/* Hide scrollbar for cleaner look */
-	.carousel-3d::-webkit-scrollbar {
-		height: 6px;
-	}
-
-	.carousel-3d::-webkit-scrollbar-track {
-		background: rgba(255, 255, 255, 0.05);
-	}
-
-	.carousel-3d::-webkit-scrollbar-thumb {
-		background: rgba(0, 217, 255, 0.3);
-		border-radius: 3px;
+		padding-bottom: 8px;
 	}
 
 	.feature-card-3d {
-		min-width: 92vw;
-		max-width: 92vw;
-		flex: 0 0 92vw;
+		min-width: 80%;
+		max-width: 420px;
+		flex: 0 0 auto;
 		transform: none !important;
-		margin: 0 4vw;
+		margin: 0 8px;
 		scroll-snap-align: center;
-		scroll-snap-stop: always;
 	}
 
 	.carousel-controls {
-		display: none;
+		display: flex;
+		gap: 12px;
+		justify-content: center;
+		margin-top: 12px;
 	}
 
 	.carousel-indicators {
-		display: flex !important;
-		justify-content: center;
-		gap: 8px;
-		margin-top: 16px;
+		display: none !important;
 	}
 }
 
@@ -1386,11 +1372,16 @@ html {
 
 	.hero-title {
 		font-size: clamp(1.6rem, 8vw, 2.2rem);
+		letter-spacing: 0.04em;
+		word-spacing: 0.1em;
 	}
 
 	.hero-subtitle {
 		font-size: 0.95rem;
 		padding: 0 12px;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		letter-spacing: 0.15em;
 	}
 
 	.cta-button {
@@ -1416,29 +1407,8 @@ html {
 		margin: 0 auto;
 	}
 
-	.carousel-3d { 
-		gap: 0;
-		padding: 0 12px 16px 12px;
-		margin: 0 -12px;
-	}
-	
-	.feature-card-3d { 
-		min-width: 95vw;
-		max-width: 95vw;
-		flex: 0 0 95vw;
-		margin: 0 2.5vw;
-	}
-	
-	.carousel-controls {
-		display: none !important;
-	}
-	
-	.carousel-indicators {
-		display: flex !important;
-		justify-content: center;
-		gap: 6px;
-		margin-top: 12px;
-	}
+	.carousel-3d { gap: 12px; }
+	.feature-card-3d { min-width: 85%; max-width: 360px; }
 
 	/* Hide floating UI that interferes with small screens */
 	.nav-btn-prev,
